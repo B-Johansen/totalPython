@@ -74,17 +74,17 @@ class Url:
         "x-apikey": api_key,
     }  # Use the imported api_key
 
-    def __init__(self, var_url):
+    def __init__(self, var_url=None):
         self.var_url = var_url
 
     def check_for_identifier(self):
         identifier_input = input("Do you have an identifier? (yes/no): ")
         if identifier_input.lower() == "no":
-            url_id_instance = identifier.identifier(
-                self.var_url
-            )  # Assuming generate_url_id() is a method in UrlID
+            self.var_url = identifier.generate_url_id()  # Assuming generate_url_id() is a method in UrlID
+            print(f"New URL identifier generated: {self.var_url}")
             return False
         elif identifier_input.lower() == "yes":
+            self.var_url = input("Enter URL identifier: ")
             print("User has an identifier. Continue with the program.")
             return True
         else:
@@ -115,7 +115,6 @@ if __name__ == "__main__":
         file_instance.get_file_report()
 
     elif choice == "4":
-        url_instance = Url(var_url=input("Enter URL identifier: "))
-
-        if url_instance.check_for_identifier():
-            url_instance.get_url_report()
+        url_instance = Url()
+        url_instance.check_for_identifier()
+        url_instance.get_url_report()
