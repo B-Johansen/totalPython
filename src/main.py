@@ -4,7 +4,7 @@ import sys
 import subprocess
 from credentials import api_key  # Import the api_key from credentials.py
 import requests
-import identifier  # Importing url2base64-module
+import base64
 
 
 # Install requests from PyPi
@@ -80,7 +80,7 @@ class Url:
     def check_for_identifier(self):
         identifier_input = input("Do you have an identifier? (yes/no): ")
         if identifier_input.lower() == "no":
-            self.var_url = identifier.generate_url_id()  # Assuming generate_url_id() is a method in UrlID
+            self.var_url = self.generate_url_id(input("Enter URL: "))  # Generate URL ID here
             print(f"New URL identifier generated: {self.var_url}")
             return False
         elif identifier_input.lower() == "yes":
@@ -90,6 +90,9 @@ class Url:
         else:
             print("Invalid input. Please enter 'yes' or 'no'.")
             return False
+
+    def generate_url_id(self, url):
+        return base64.urlsafe_b64encode(url.encode()).decode().strip("=")
 
     def get_url_report(self):
         var_urlUrl = self.var_vturl + self.var_url
