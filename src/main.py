@@ -1,10 +1,15 @@
 #!/usr/bin/env python
 
+import subprocess
+import sys
 import tkinter as tk
 from tkinter import messagebox, simpledialog
 from credentials import api_key  # Import the api_key from credentials.py
 import requests
 import base64
+import customtkinter as ctk
+
+ctk.set_default_color_theme("green")
 
 # Install requests from PyPi
 def install(package):
@@ -12,11 +17,22 @@ def install(package):
 
 
 # Check if requests is installed, if not, install it
+# Check if requests and customtkinter are installed, if not, install them
 try:
     import requests
 except ImportError:
     install("requests")
 
+try:
+    import customtkinter
+except ImportError:
+    install("customtkinter")
+    
+try:
+    import distutils
+except ImportError:
+    install("distutils")
+    
 
 class IPaddress:
     var_vtip = "https://www.virustotal.com/api/v3/ip_addresses/"
@@ -30,9 +46,13 @@ class IPaddress:
 
     def get_ip_report(self):
         var_urlIP = self.var_vtip + self.var_ip
-        response = requests.get(var_urlIP, headers=self.headers)
-        return response.text  # return the response text as a string
-
+        try:
+            response = requests.get(var_urlIP, headers=self.headers)
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            return str(e)
+        else:
+            return response.text  # return the response text as a string
 
 class Domain:
     var_vtdomain = "https://www.virustotal.com/api/v3/domains/"
@@ -97,7 +117,7 @@ class Url:
 
 def run_program():
     output.delete(1.0, tk.END)  # Clear the output field before running the program
-    choice = variable.get()
+    choice = optionmenu_var.get()  # Get the selected option from the customtkinter.CTkOptionMenu
 
     if choice == "IP address":
         ip_addr = simpledialog.askstring("Input", "Enter IP-address:")
@@ -123,24 +143,29 @@ def run_program():
         result = url_instance.get_url_report()
         output.insert(tk.END, result)
 
+root = ctk.CTk()
+root.configure(fg_color="#578f64")
+root.geometry("800x600")
 
-root = tk.Tk()
-root.geometry("500x400")
-
-label = tk.Label(root, text="Select an option and run the program")
+label = ctk.CTkLabel(root, text="Select an option and run the program")
 label.pack()
 
 options = ['IP address', 'Domain', 'File', 'URL']
 variable = tk.StringVar(root)
 variable.set(options[0])
 
-dropdown = tk.OptionMenu(root, variable, *options)
-dropdown.pack()
+optionmenu_var = customtkinter.StringVar(value="Select options")
 
-run_button = tk.Button(root, text="Run Program", command=run_program)
-run_button.pack()
+def optionmenu_callback(choice):
+    print("optionmenu dropdown clicked", choice)
 
-output = tk.Text(root, height=10, width=50)
+combobox = customtkinter.CTkOptionMenu(master=root, values=["IP address", "Domain", "File", "URL"], command=optionmenu_callback, variable=optionmenu_var)
+combobox.pack(padx=5, pady=5)
+
+run_button = ctk.CTkButton(root, text="Run Program", command=run_program)
+run_button.pack(padx=20, pady=20)
+
+output = ctk.CTkTextbox(root, height=350, width=500)
 output.pack()
 
 root.mainloop()
