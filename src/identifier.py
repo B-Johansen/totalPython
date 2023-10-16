@@ -2,7 +2,7 @@
 
 import base64
 
-class UrlId:
+class identifier:
     def __init__(self, url):
         self.url = url
         self.url_id = self.generate_url_id()
@@ -14,5 +14,5 @@ class UrlId:
         print(f"URL: {self.url}, URL ID: {self.url_id}")
 
 url = input("Enter URL: ")
-url_obj = UrlId(url)
+url_obj = identifier(url)
 url_obj.print_details()
