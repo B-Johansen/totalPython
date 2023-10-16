@@ -12,7 +12,3 @@ class identifier:
 
     def print_details(self):
         print(f"URL: {self.url}, URL ID: {self.url_id}")
-
-url = input("Enter URL: ")
-url_obj = identifier(url)
-url_obj.print_details()

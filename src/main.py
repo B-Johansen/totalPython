@@ -77,18 +77,19 @@ class Url:
     def __init__(self, var_url):
         self.var_url = var_url
 
-    """def check_for_identifier(self):
-        identifier = input("Do you have an identifier? (yes/no): ")
-        if identifier.lower() == "no":
-            identifier.generate_url_id()  # Assuming generate_url_id() is a method in UrlID
+    def check_for_identifier(self):
+        identifier_input = input("Do you have an identifier? (yes/no): ")
+        if identifier_input.lower() == "no":
+            url_id_instance = identifier.identifier(
+                self.var_url
+            )  # Assuming generate_url_id() is a method in UrlID
             return False
-        elif identifier.lower() == "yes":
+        elif identifier_input.lower() == "yes":
             print("User has an identifier. Continue with the program.")
             return True
         else:
             print("Invalid input. Please enter 'yes' or 'no'.")
             return False
-    """
 
     def get_url_report(self):
         var_urlUrl = self.var_vturl + self.var_url
@@ -96,31 +97,25 @@ class Url:
         print(response.text)
 
 
-# Ask for IP address when creating the instance and call the method
 if __name__ == "__main__":
-    
     choice = input(
         "Enter '1' for IP address, '2' for Domain, '3' for File, or '4' for URL: "
     )
-    
-    if choice == '1':
-        
+
+    if choice == "1":
         ip_addr_instance = IPaddress(var_ip=input("Enter IP-address: "))
         ip_addr_instance.get_ip_report()
-        
-    elif choice == '2':
-        
+
+    elif choice == "2":
         domain_instance = Domain(var_domain=input("Enter Domain: "))
         domain_instance.get_domain_report()
-        
-    elif choice == '3':
-        
+
+    elif choice == "3":
         file_instance = File(var_file=input("Enter File Hash: "))
         file_instance.get_file_report()
-        
-    elif choice == '4':
-        
+
+    elif choice == "4":
         url_instance = Url(var_url=input("Enter URL identifier: "))
-        
+
         if url_instance.check_for_identifier():
             url_instance.get_url_report()
