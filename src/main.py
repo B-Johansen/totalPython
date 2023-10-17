@@ -9,7 +9,8 @@ import requests
 import base64
 import customtkinter as ctk
 
-ctk.set_default_color_theme("green")
+ctk.set_appearance_mode("dark")
+ctk.set_default_color_theme("blue")
 
 # Install requests from PyPi
 def install(package):
@@ -144,7 +145,7 @@ def run_program():
         output.insert(tk.END, result)
 
 root = ctk.CTk()
-root.configure(fg_color="#578f64")
+#root.configure(fg_color="#578f64")
 root.geometry("800x600")
 
 label = ctk.CTkLabel(root, text="Select an option and run the program")
