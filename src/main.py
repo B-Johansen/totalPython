@@ -12,6 +12,7 @@ import customtkinter as ctk
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
+
 # Install requests from PyPi
 def install(package):
     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
@@ -28,17 +29,17 @@ try:
     import customtkinter
 except ImportError:
     install("customtkinter")
-    
+
 try:
     import distutils
 except ImportError:
     install("distutils")
 
-try: 
+try:
     import customtkinter
 except ImportError:
     install("customtkinter")
-    
+
 
 class IPaddress:
     var_vtip = "https://www.virustotal.com/api/v3/ip_addresses/"
@@ -59,6 +60,7 @@ class IPaddress:
             return str(e)
         else:
             return response.text  # return the response text as a string
+
 
 class Domain:
     var_vtdomain = "https://www.virustotal.com/api/v3/domains/"
@@ -91,6 +93,7 @@ class File:
         response = requests.get(var_urlFile, headers=self.headers)
         return response.text
 
+
 class Url:
     var_vturl = "https://www.virustotal.com/api/v3/urls/"
     headers = {
@@ -102,15 +105,21 @@ class Url:
         self.var_url = var_url
 
     def check_for_identifier(self):
-        identifier_input = messagebox.askquestion("Identifier", "Do you have an identifier?")
+        identifier_input = messagebox.askquestion(
+            "Identifier", "Do you have an identifier?"
+        )
         if identifier_input == "no":
             url = simpledialog.askstring("Input", "Enter URL:")
             self.var_url = self.generate_url_id(url)  # Generate URL ID here
-            messagebox.showinfo("Information", f"New URL identifier generated: {self.var_url}")
+            messagebox.showinfo(
+                "Information", f"New URL identifier generated: {self.var_url}"
+            )
             return False
         elif identifier_input == "yes":
             self.var_url = simpledialog.askstring("Input", "Enter URL identifier:")
-            messagebox.showinfo("Information", "User has an identifier. Continue with the program.")
+            messagebox.showinfo(
+                "Information", "User has an identifier. Continue with the program."
+            )
             return True
 
     def generate_url_id(self, url):
@@ -121,9 +130,12 @@ class Url:
         response = requests.get(var_urlUrl, headers=self.headers)
         return response.text
 
+
 def run_program():
     output.delete(1.0, tk.END)  # Clear the output field before running the program
-    choice = optionmenu_var.get()  # Get the selected option from the customtkinter.CTkOptionMenu
+    choice = (
+        optionmenu_var.get()
+    )  # Get the selected option from the customtkinter.CTkOptionMenu
 
     if choice == "IP address":
         ip_addr = simpledialog.askstring("Input", "Enter IP-address:")
@@ -149,24 +161,32 @@ def run_program():
         result = url_instance.get_url_report()
         output.insert(tk.END, result)
 
+
 root = ctk.CTk()
-#root.configure(fg_color="#578f64")
+# root.configure(fg_color="#578f64")
 root.geometry("800x600")
 root.title("TotalPython")
 
 label = ctk.CTkLabel(root, text="Select an option and run the program")
 label.pack()
 
-options = ['IP address', 'Domain', 'File', 'URL']
+options = ["IP address", "Domain", "File", "URL"]
 variable = tk.StringVar(root)
 variable.set(options[0])
 
 optionmenu_var = customtkinter.StringVar(value="Select options")
 
+
 def optionmenu_callback(choice):
     print("optionmenu dropdown clicked", choice)
 
-combobox = customtkinter.CTkOptionMenu(master=root, values=["IP address", "Domain", "File", "URL"], command=optionmenu_callback, variable=optionmenu_var)
+
+combobox = customtkinter.CTkOptionMenu(
+    master=root,
+    values=["IP address", "Domain", "File", "URL"],
+    command=optionmenu_callback,
+    variable=optionmenu_var,
+)
 combobox.pack(padx=5, pady=5)
 
 run_button = ctk.CTkButton(root, text="Run Program", command=run_program)

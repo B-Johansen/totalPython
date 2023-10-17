@@ -2,6 +2,7 @@
 
 import base64
 
+
 class identifier:
     def __init__(self, url):
         self.url = url
@@ -12,6 +13,7 @@ class identifier:
 
     def print_details(self):
         print(f"URL: {self.url}, URL ID: {self.url_id}")
+
 
 # Take URL as user input
 url = input("Please enter a URL: ")
