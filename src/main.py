@@ -33,6 +33,11 @@ try:
     import distutils
 except ImportError:
     install("distutils")
+
+try: 
+    import customtkinter
+except ImportError:
+    install("customtkinter")
     
 
 class IPaddress:
@@ -147,6 +152,7 @@ def run_program():
 root = ctk.CTk()
 #root.configure(fg_color="#578f64")
 root.geometry("800x600")
+root.title("TotalPython")
 
 label = ctk.CTkLabel(root, text="Select an option and run the program")
 label.pack()
