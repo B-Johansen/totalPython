@@ -192,7 +192,7 @@ combobox.pack(padx=5, pady=5)
 run_button = ctk.CTkButton(root, text="Run Program", command=run_program)
 run_button.pack(padx=20, pady=20)
 
-output = ctk.CTkTextbox(root, height=450, width=600)
+output = ctk.CTkTextbox(root, height=450, width=750)
 output.pack()
 
 root.mainloop()
