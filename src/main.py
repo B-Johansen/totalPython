@@ -193,6 +193,6 @@ run_button = ctk.CTkButton(root, text="Run Program", command=run_program)
 run_button.pack(padx=20, pady=20)
 
 output = ctk.CTkTextbox(root, height=450, width=750)
-output.pack()
+output.pack(fill='both', expand=True)
 
 root.mainloop()
